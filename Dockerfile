@@ -5,6 +5,9 @@ WORKDIR /app
 # Copiamos todo el proyecto
 COPY . .
 
+# Damos permisos de ejecución al archivo mvnw
+RUN chmod +x ./mvnw
+
 # Construimos el JAR sin tests
 RUN ./mvnw clean package -DskipTests
 
@@ -20,4 +23,3 @@ EXPOSE 8080
 
 # Comando de arranque
 ENTRYPOINT ["java", "-jar", "app.jar"]
-
