@@ -25,7 +25,7 @@ public class EmailService {
         html = html.replace("${name}", name);
 
         SendEmailRequest params = SendEmailRequest.builder()
-                .from("Resend <onboarding@resend.dev>")
+                .from("Homely <noreply@homelyweb.app>")
                 .to(to)
                 .subject("¡Bienvenido a Homely, %s!".formatted(name))
                 .html(html)

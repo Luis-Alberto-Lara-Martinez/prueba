@@ -5,7 +5,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -21,7 +20,7 @@ public class PruebaController {
     @GetMapping("/send-welcome")
     public ResponseEntity<String> sendWelcome() {
         try {
-            emailService.sendWelcomeEmail("luisalbertolaramartinez3c@gmail.com", "Luis Alberto");
+            emailService.sendWelcomeEmail("lizbethcuadrosquispe6@gmail.com", "Lizbeth Cecilia");
             return ResponseEntity.ok("Correo enviado correctamente");
         } catch (Exception e) {
             return ResponseEntity.status(500).body("Error: " + e.getMessage());
