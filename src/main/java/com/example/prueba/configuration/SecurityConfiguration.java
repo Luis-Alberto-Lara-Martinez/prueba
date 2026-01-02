@@ -33,10 +33,9 @@ class SecurityConfiguration {
                 .sessionManagement(session -> session
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(authz -> authz
-                        .requestMatchers("/pruebas/**").permitAll()
-                        .requestMatchers("/auth/**").authenticated()
-                        .anyRequest().permitAll()
-                )
+                        .requestMatchers("/public/**").permitAll()
+                        .requestMatchers("/admin/**").hasRole("ADMINISTRADOR")
+                        .anyRequest().authenticated())
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
                 .httpBasic(AbstractHttpConfigurer::disable);
         return http.build();

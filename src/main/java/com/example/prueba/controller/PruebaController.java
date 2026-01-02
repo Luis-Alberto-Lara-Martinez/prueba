@@ -6,6 +6,7 @@ import com.example.prueba.services.ResetTokenService;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.Mapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.HashMap;
@@ -25,16 +26,15 @@ public class PruebaController {
     }
 
     // Endpoints en /pruebas/** - Acceso público (sin autenticación)
-    @GetMapping("/pruebas/saludo")
+    @GetMapping("/public/saludo")
     public String saludoPublico() {
         return "¡Hola! Este endpoint es público y no requiere autenticación.";
     }
-
-    @GetMapping("/pruebas/generar-token")
+    @GetMapping("/public/generar-token")
     public Map<String, String> generarToken() {
         Map<String, Object> extraClaims = new HashMap<>();
         extraClaims.put("id", 1);
-        extraClaims.put("role", "admin");
+        extraClaims.put("role", "usuario");
         String jwtToken = jwtService.generateToken("luis@gmail.com", extraClaims);
 
         Map<String, String> response = new HashMap<>();
@@ -44,9 +44,10 @@ public class PruebaController {
     }
 
     // Endpoints en /auth/** - Requieren JWT
-    @GetMapping("/auth/perfil")
+    @GetMapping("/perfil")
     public Map<String, String> perfilProtegido() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        assert authentication != null;
         String email = authentication.getName();
 
         Map<String, String> response = new HashMap<>();
@@ -55,10 +56,11 @@ public class PruebaController {
         return response;
     }
 
-    @GetMapping("/auth/datos-privados")
+    @GetMapping("/admin/datos")
     public String datosPrivados() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        return "Estos son datos privados accesibles solo con JWT. Usuario: " + authentication.getName();
+        assert authentication != null;
+        return "Estos son datos privados accesibles solo con JWT de admin. Usuario: " + authentication.getName();
     }
 
     // Endpoints antiguos en /api (acceso público según configuración)
